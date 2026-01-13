@@ -20,18 +20,38 @@ df['user_score'] = pd.to_numeric(df['user_score'], errors='coerce')
 df = df.dropna(subset=['name']) # 2 amostras
 df = df.dropna(subset=['year_of_release']) # 244 amostras
 
+#Preferi não mexer em user_score e critic_score, pois isso vai alterar um valor crucial que vai afetar os resultados finais e análise final, portanto como ele está NaN ele vai ser ignorado nessas análises
+
 df['rating'] = df['rating'].fillna('Unknown')
 
-# Valores ausentes em critic_score e user_score foram imputados utilizando a mediana para preservar a distribuição e reduzir impacto de outliers. Além disso, foram criadas variáveis indicadoras de ausência para preservar a informação de missingness.
-
-df['critic_score_missing'] = df['critic_score'].isna()
-df['user_score_missing'] = df['user_score'].isna()
-
-df['critic_score'] = df['critic_score'].fillna(df['critic_score'].median())
-df['user_score'] = df['user_score'].fillna(df['user_score'].median())
-
-df.info()
-print(df.sample(15))
-
 df['total_sales'] = df['jp_sales'] + df['eu_sales'] + df['na_sales'] + df['other_sales']
+
+#Lançamento de Jogos a cada ano:
+
+#Ordena os jogos por ano de lançamento, do mais antigo ao mais novo e remove os duplicados para assim ter somente o ano original que o game lançou
+df_unique = df.sort_values('year_of_release').drop_duplicates(subset='name', keep='first')
+df_unique_gb = df_unique.groupby('year_of_release')['name'].count()
+
+#print(df_unique_gb)
+
+#Variaçao de vendas de plataforma pra plataforma ao longo dos anos
+
+df_platform_sales_gb = df.groupby(['platform', 'year_of_release'])['total_sales'].sum()
+print(df_platform_sales_gb)
+
+df_platform_sales = (
+    df.groupby(['year_of_release', 'platform'])['total_sales']
+      .sum()
+      .reset_index()
+)
+
+df_platform_sales_peryear_gb = (
+    df_platform_sales
+      .sort_values(['year_of_release', 'total_sales'], ascending=[True, False])
+      .groupby('year_of_release')
+      .head(3)
+)
+
+
+#print(df_platform_sales_peryear_gb.to_string(index=False))
 
