@@ -37,7 +37,7 @@ df_unique_gb = df_unique.groupby('year_of_release')['name'].count()
 #Variaçao de vendas de plataforma pra plataforma ao longo dos anos
 
 df_platform_sales_gb = df.groupby(['platform', 'year_of_release'])['total_sales'].sum()
-print(df_platform_sales_gb)
+#print(df_platform_sales_gb)
 
 df_platform_sales = (
     df.groupby(['year_of_release', 'platform'])['total_sales']
@@ -52,6 +52,21 @@ df_platform_sales_peryear_gb = (
       .head(3)
 )
 
+df_platform_total = df.groupby('platform')['total_sales'].sum().sort_values(ascending=False)
 
-#print(df_platform_sales_peryear_gb.to_string(index=False))
+print(df_platform_total.head(10))
 
+top_platforms = df_platform_total.head(5).index
+
+df_top = df[df['platform'].isin(top_platforms)]
+
+plt.figure(figsize=(12,6))
+for p in top_platforms:
+    data = df_platform_sales[df_platform_sales['platform'] == p]
+    plt.plot(data['year_of_release'], data['total_sales'], label=p)
+
+plt.title('Vendas Anuais das Principais Plataformas')
+plt.xlabel('Ano de Lançamento')
+plt.ylabel('Vendas Globais')
+plt.legend()
+plt.show()
