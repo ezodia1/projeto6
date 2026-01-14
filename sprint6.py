@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Atribuição do DataFrame
 df = pd.read_csv('games.csv')
@@ -54,7 +55,7 @@ df_platform_sales_peryear_gb = (
 
 df_platform_total = df.groupby('platform')['total_sales'].sum().sort_values(ascending=False)
 
-print(df_platform_total.head(10))
+#print(df_platform_total.head(10))
 
 top_platforms = df_platform_total.head(5).index
 
@@ -69,4 +70,49 @@ plt.title('Vendas Anuais das Principais Plataformas')
 plt.xlabel('Ano de Lançamento')
 plt.ylabel('Vendas Globais')
 plt.legend()
-plt.show()
+plt.savefig('Vendas Anuais das Principais Plataformas.png')
+
+'''As plataformas com maiores vendas totais (PS2, X360, PS3, Wii e DS) apresentam um crescimento, ápice e queda bem claros. Algumas, como PS2 e Wii, foram muito fortes entre 2005 até 2010, mas desapareceram nos anos seguintes, mostrando que plataformas populares acabam sendo substituídas conforme novas gerações entram no mercado.'''
+
+df_modern_platforms = df[df['year_of_release'] > 1995].sort_values('year_of_release')
+df_modern_platforms = df_modern_platforms.groupby(['year_of_release', 'platform'])['total_sales'].sum().reset_index()
+df_modern_platforms = df_modern_platforms[df_modern_platforms['total_sales'] > 20]
+
+plt.title('Vendas Totais por Ano para todas as Plataformas')
+plt.figure(figsize=(12, 6))
+sns.lineplot(data=df_modern_platforms, x='year_of_release', y='total_sales', hue='platform')
+plt.xlabel('Ano de Lançamento')
+plt.savefig('Vendas Totais por Ano para todas as Plataformas.png')
+
+'''Ao analisar todas as plataformas após 1995, percebe-se que novas plataformas surgem aproximadamente a cada 5 a 7 anos, atingem ápice e depois são substituídas. Esse comportamento indica um ciclo natural do mercado, no qual plataformas antigas deixam de gerar vendas enquanto as novas assumem o protagonismo.'''
+
+df_news = df[df['year_of_release'] > 2012]
+
+df_news_sales = df_news['total_sales', 'platform'].sort_values()
+
+print(df_news_sales)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
