@@ -71,6 +71,7 @@ plt.xlabel('Ano de Lançamento')
 plt.ylabel('Vendas Globais')
 plt.legend()
 plt.savefig('Vendas Anuais das Principais Plataformas.png')
+plt.close()
 
 '''As plataformas com maiores vendas totais (PS2, X360, PS3, Wii e DS) apresentam um crescimento, ápice e queda bem claros. Algumas, como PS2 e Wii, foram muito fortes entre 2005 até 2010, mas desapareceram nos anos seguintes, mostrando que plataformas populares acabam sendo substituídas conforme novas gerações entram no mercado.'''
 
@@ -83,19 +84,47 @@ plt.figure(figsize=(12, 6))
 sns.lineplot(data=df_modern_platforms, x='year_of_release', y='total_sales', hue='platform')
 plt.xlabel('Ano de Lançamento')
 plt.savefig('Vendas Totais por Ano para todas as Plataformas.png')
+plt.close()
 
 '''Ao analisar todas as plataformas após 1995, percebe-se que novas plataformas surgem aproximadamente a cada 5 a 7 anos, atingem ápice e depois são substituídas. Esse comportamento indica um ciclo natural do mercado, no qual plataformas antigas deixam de gerar vendas enquanto as novas assumem o protagonismo.'''
 
-df_news = df[df['year_of_release'] > 2012]
+#BLOXPLOT
 
-df_news_sales = df_news['total_sales', 'platform'].sort_values()
+df_psxbox = ['PS4', 'XOne']
+plt.figure(figsize=(14, 6))
+sns.boxplot(data=df[df['platform'].isin(df_psxbox)],
+            x='platform', y='total_sales')
+plt.title('Vendas Globais por Plataforma')
+plt.xlabel('Plataforma')
+plt.ylabel('Vendas Globais (em milhões)')
+plt.xticks(rotation=45)
+plt.savefig('Vendas Globais por Plataforma.png')
+plt.close()
 
-print(df_news_sales)
+#avaliaçoes
 
+df_ps2 = df[df['platform'] == 'PS2']
 
+total = len(df_ps2)
 
+nan_critic = df_ps2['critic_score'].isna().sum()
+nan_user = df_ps2['user_score'].isna().sum()
+nan_both = (df_ps2['critic_score'].isna() & df_ps2['user_score'].isna()).sum()
 
+'''print(f"Total PS2: {total}")
+print(f"NaN em critic_score: {nan_critic}")
+print(f"NaN em user_score: {nan_user}")
+print(f"NaN em ambos: {nan_both}") '''
 
+df_ps2_dropna = df_ps2.dropna(subset=['critic_score', 'user_score', 'total_sales'])
+
+plt.figure(figsize=(12,6))
+sns.scatterplot(data=df_ps2_dropna, x='user_score', y='critic_score', size='total_sales', sizes=(20,200), alpha=0.6)
+plt.xlabel('User Score')
+plt.ylabel('Critic Score')
+plt.title('Scores vs Vendas (cor = vendas)')
+plt.savefig('user_critic.png')
+plt.close()
 
 
 
