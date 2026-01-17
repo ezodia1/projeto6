@@ -126,21 +126,58 @@ plt.title('Scores vs Vendas (cor = vendas)')
 plt.savefig('user_critic.png')
 plt.close()
 
+#Ao analisar a diferença entre as vendas de jogos com avaliações altas pela crítica e vendas de jogos com avaliações altas pelos usuários, percebe-se que os games com notas altas pela crítica em sua maioria são um sucesso de venda, enquanto jogos com avaliações altas dos usuários não tem muita relação na venda total
+ 
 
 
+'''Filtro para escolher 5 jogos que estejam para estas 5 principais plataformas ('PS3', 'X360', 'PS4', 'XOne', 'PC')''' 
+
+#print(df.sort_values(by='total_sales', ascending=False)['name'].head(20))
+
+#print(df[df['name'] == 'Grand Theft Auto V'])
+
+df_gtav = df[df['name'] == 'Grand Theft Auto V']
+
+games_platform = ['PS3', 'X360', 'PS4', 'XOne', 'PC']
+
+df_same_games_platform = df[df['platform'].isin(games_platform)]
+
+df_games_platform_merged = df_same_games_platform.groupby('name', as_index=False)['total_sales'].sum()
+
+#print(df_games_platform_merged.sort_values(by='total_sales', ascending=False)['name'].head(20))
+
+chosen_games = ['Grand Theft Auto V', 'Call of Duty: Black Ops 3', 'Call of Duty: Advanced Warfare', 'The Elder Scrolls V: Skyrim', 'FIFA 16']
+
+df_chosen_games = df[df['name'].isin(chosen_games) & df['platform'].isin(games_platform)]
 
 
+plt.figure(figsize=(12, 6))
+sns.barplot(data=df_chosen_games, x='platform', y='total_sales', hue='name')
+plt.xlabel(' ')
+plt.ylabel('Vendas Globais')
+plt.title('O mesmo jogo, vende diferente em outra plataforma?')
+plt.savefig('vendas_games_plataforma.png')
+plt.close()
 
+#
 
+#Venda de Jogos por Genero
 
+df_games_genre_sales = df.groupby('genre', as_index=False)['total_sales'].sum()
 
+df_games_unique = df.drop_duplicates(subset='name')
 
+df_games_genre_count = df_games_unique.groupby('genre', as_index=False)['name'].count()
 
+df_games_genre_merged = pd.merge(df_games_genre_count, df_games_genre_sales, on='genre')
+df_games_genre_merged = df_games_genre_merged.rename(columns={'name': 'games_count'})
 
+#print(df_games_genre_merged)
 
-
-
-
+plt.figure(figsize=(12, 6))
+sns.barplot(data=df_games_genre_merged, x='games_count', y='total_sales', hue='genre')
+plt.savefig('Como a quantidade de jogos de um gênero influencia o total de vendas')
+plt.close()
 
 
 
