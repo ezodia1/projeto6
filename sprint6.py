@@ -179,6 +179,24 @@ sns.barplot(data=df_games_genre_merged, x='games_count', y='total_sales', hue='g
 plt.savefig('Como a quantidade de jogos de um gênero influencia o total de vendas')
 plt.close()
 
+# Perfil de Usuário para cada região
 
 
+#5 Plataformas que mais vendem em cada região:
+
+#Japan
+df_jp_platforms = df.groupby('platform')['jp_sales'].sum().sort_values(ascending=False).head(5).reset_index()
+
+#North America
+df_na_platforms = df.groupby('platform')['na_sales'].sum().sort_values(ascending=False).head(5).reset_index()
+
+#Europe
+df_eu_platforms = df.groupby('platform')['eu_sales'].sum().sort_values(ascending=False).head(5).reset_index()
+
+
+#5 Gêneros que mais vendem em cada região:
+
+#Japan
+df_jp_genre = df.groupby('genre')['jp_sales'].sum().sort_values(ascending=False).head(5).reset_index()
+print(df_jp_genre)
 
