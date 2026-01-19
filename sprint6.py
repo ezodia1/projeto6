@@ -200,3 +200,5 @@ df_eu_platforms = df.groupby('platform')['eu_sales'].sum().sort_values(ascending
 df_jp_genre = df.groupby('genre')['jp_sales'].sum().sort_values(ascending=False).head(5).reset_index()
 print(df_jp_genre)
 
+a
+
