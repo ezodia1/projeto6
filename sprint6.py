@@ -185,20 +185,71 @@ plt.close()
 #5 Plataformas que mais vendem em cada região:
 
 #Japan
-df_jp_platforms = df.groupby('platform')['jp_sales'].sum().sort_values(ascending=False).head(5).reset_index()
+df_jp_platforms = df.groupby('platform')['jp_sales'].sum().sort_values(ascending=False).head(5)
 
 #North America
-df_na_platforms = df.groupby('platform')['na_sales'].sum().sort_values(ascending=False).head(5).reset_index()
+df_na_platforms = df.groupby('platform')['na_sales'].sum().sort_values(ascending=False).head(5)
 
 #Europe
-df_eu_platforms = df.groupby('platform')['eu_sales'].sum().sort_values(ascending=False).head(5).reset_index()
+df_eu_platforms = df.groupby('platform')['eu_sales'].sum().sort_values(ascending=False).head(5)
+
+
+#Quotas de cada região
+
+#Japan
+quota_jp_platforms = ((df_jp_platforms / df['jp_sales'].sum()) * 100).round(2)
+
+#North America
+quota_na_platforms = ((df_na_platforms / df['na_sales'].sum()) * 100).round(2)
+
+#Europe
+quota_eu_platforms = ((df_eu_platforms / df['eu_sales'].sum()) * 100).round(2)
+
+#print(quota_eu_platforms.map(lambda x: f"{x:.2f}%"))
 
 
 #5 Gêneros que mais vendem em cada região:
 
 #Japan
-df_jp_genre = df.groupby('genre')['jp_sales'].sum().sort_values(ascending=False).head(5).reset_index()
-print(df_jp_genre)
+df_jp_genre = df.groupby('genre')['jp_sales'].sum().sort_values(ascending=False).head(5)
+df_jp_genre_others = df.groupby('genre')['jp_sales'].sum().drop(df_jp_genre.index).sum()
 
-a
+#North America
+df_na_genre = df.groupby('genre')['na_sales'].sum().sort_values(ascending=False).head(5)
+df_na_genre_others = df.groupby('genre')['na_sales'].sum().drop(df_na_genre.index).sum()
 
+#Europe
+df_eu_genre = df.groupby('genre')['eu_sales'].sum().sort_values(ascending=False).head(5)
+df_eu_genre_others = df.groupby('genre')['eu_sales'].sum().drop(df_eu_genre.index).sum()
+
+#Quotas de cada região
+
+#Japan
+quota_jp_genre = ((df_jp_genre / df['jp_sales'].sum()) * 100).round(2)
+
+#North America
+quota_na_genre = ((df_na_genre / df['na_sales'].sum()) * 100).round(2)
+
+#Europe
+quota_eu_genre = ((df_eu_genre / df['eu_sales'].sum()) * 100).round(2)
+
+#print(quota_eu_genre)
+
+
+#5 Ratings que mais vendem em cada região: 
+
+df_rating_dropna = df[df['rating'] != 'Unknown']
+
+
+#Japan
+df_jp_rating = df_rating_dropna.groupby('rating')['jp_sales'].sum().sort_values(ascending=False)
+
+#North America
+df_na_rating = df_rating_dropna.groupby('rating')['na_sales'].sum().sort_values(ascending=False)
+
+#Europe
+df_eu_rating = df_rating_dropna.groupby('rating')['eu_sales'].sum().sort_values(ascending=False)
+
+print(df_jp_rating)
+print(df_na_rating)
+print(df_eu_rating)
