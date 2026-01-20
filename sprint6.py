@@ -375,3 +375,33 @@ else:
 # Teste 2: Utilizei os dados disponíveis para testar a hipótese nula (As classificações médias dos usuários para os gêneros Action e Sports são iguais) e a hipótese alternativa (As classificações médias dos usuários para os gêneros Action e Sports são diferentes). A partir da análise, verifiquei que mesmo sendo gêneros distintos e com públicos diferentes, as avaliações dos usuários não apresentam diferença estatisticamente significativa entre eles. Portanto, não podemos rejeitar a hipótese nula.
 
 #Para estes testes de hipótese utilizei a significância de 5%, tendo em vista que se está sendo analisado dados referentes a compra de videogames e jogos, o quem infere que há algumas variáveis tais como games com múltiplos gêneros, gêneros de jogos que costumam vir acompanhados (como ação e aventura), pessoas que compram consoles por causa de exclusivos ou por fator nostalgia. Como há algumas variáveis que não se tem como calcular com exatidão e o resultado dessa hipótese não coloca a vida de ninguém em risco eu utilizei uma significância de 5%.
+
+#CONCLUSÃO GERAL
+
+'''
+#CONCLUSÃO GERAL
+
+Essa análise foi feita pra tentar entender melhor como o mercado de videogames funciona. A ideia era ver os padrões de venda, como as coisas mudaram ao longo do tempo e o que de fato influencia o consumidor na hora de comprar.
+
+Ciclo de vida das plataformas
+
+Uma coisa que chamou bastante atenção foi que os consoles seguem meio que um padrão. Eles são lançados, começam a vender devagar, depois explodem e eventualmente vão perdendo espaço. Pelo que deu pra ver nos dados, um console costuma ficar relevante por uns 5 a 7 anos mais ou menos. O PS2 e o Wii são bons exemplos disso - entre 2005 e 2010 eles venderam muito, mas depois foram sumindo conforme os novos consoles foram chegando.
+
+Avaliações e vendas
+
+Outro ponto que ficou interessante é sobre as notas. Parece que quando a crítica avalia bem um jogo, ele tende a vender mais. Mas quando olhei as notas dos usuários comuns, não deu pra ver uma relação muito clara com as vendas. Talvez as pessoas confiem mais na opinião de sites especializados na hora de decidir comprar, não sei. Ou pode ser que quem já comprou o jogo e foi avaliar já não influencia tanto nas vendas.
+
+Diferenças entre regiões
+
+Comparando as três regiões principais deu pra perceber diferenças bem grandes. No Japão por exemplo a Nintendo é muito mais forte e jogos de RPG vendem bastante. Já nos Estados Unidos o pessoal prefere mais Action e Sports, e lá o Xbox e PlayStation disputam de igual pra igual. A Europa é parecida com os EUA mas o PlayStation acaba sendo mais popular que o Xbox.
+
+Sobre os testes de hipótese
+
+Fiz dois testes estatísticos pra verificar algumas coisas. No primeiro teste, comparei as avaliações dos usuários entre PC e Xbox One e deu diferença significativa - ou seja, o pessoal avalia diferente dependendo da plataforma. Já no segundo teste comparei os gêneros Action e Sports e não apareceu diferença nas avaliações. Isso mostra que a plataforma onde o jogo roda parece influenciar mais a opinião do que o gênero em si.
+
+Conclusão final
+
+Deu pra perceber que o mercado é bem complexo e muda bastante dependendo da região. Pra um jogo vender bem não basta só ser bom - tem que pensar em qual plataforma lançar, em qual região focar e como a crítica vai receber. E como os consoles tem esse ciclo de vida relativamente curto, o timing do lançamento também conta bastante.
+
+Vale mencionar que tem bastante dado faltando principalmente em user_score e critic_score, então algumas análises podem não estar 100% precisas. Além disso não deu pra considerar coisas como investimento em marketing, jogos exclusivos ou lançamentos em bundle com console, que com certeza influenciam nas vendas também.
+'''
