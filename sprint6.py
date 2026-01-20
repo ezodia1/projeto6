@@ -186,13 +186,18 @@ plt.close()
 
 #Japan
 df_jp_platforms = df.groupby('platform')['jp_sales'].sum().sort_values(ascending=False).head(5)
+df_jp_platforms_others = df.groupby('platform')['jp_sales'].sum().drop(df_jp_platforms.index).sum().round(2)
+df_jp_platforms['others'] = df_jp_platforms_others
 
 #North America
 df_na_platforms = df.groupby('platform')['na_sales'].sum().sort_values(ascending=False).head(5)
+df_na_platforms_others = df.groupby('platform')['na_sales'].sum().drop(df_na_platforms.index).sum().round(2)
+df_na_platforms['others'] = df_na_platforms_others
 
 #Europe
 df_eu_platforms = df.groupby('platform')['eu_sales'].sum().sort_values(ascending=False).head(5)
-
+df_eu_platforms_others = df.groupby('platform')['eu_sales'].sum().drop(df_eu_platforms.index).sum().round(2)
+df_eu_platforms['others'] = df_eu_platforms_others
 
 #Quotas de cada região
 
@@ -212,15 +217,18 @@ quota_eu_platforms = ((df_eu_platforms / df['eu_sales'].sum()) * 100).round(2)
 
 #Japan
 df_jp_genre = df.groupby('genre')['jp_sales'].sum().sort_values(ascending=False).head(5)
-df_jp_genre_others = df.groupby('genre')['jp_sales'].sum().drop(df_jp_genre.index).sum()
+df_jp_genre_others = df.groupby('genre')['jp_sales'].sum().drop(df_jp_genre.index).sum().round(2)
+df_jp_genre['others'] = df_jp_genre_others
 
 #North America
 df_na_genre = df.groupby('genre')['na_sales'].sum().sort_values(ascending=False).head(5)
-df_na_genre_others = df.groupby('genre')['na_sales'].sum().drop(df_na_genre.index).sum()
+df_na_genre_others = df.groupby('genre')['na_sales'].sum().drop(df_na_genre.index).sum().round(2)
+df_na_genre['others'] = df_na_genre_others
 
 #Europe
 df_eu_genre = df.groupby('genre')['eu_sales'].sum().sort_values(ascending=False).head(5)
-df_eu_genre_others = df.groupby('genre')['eu_sales'].sum().drop(df_eu_genre.index).sum()
+df_eu_genre_others = df.groupby('genre')['eu_sales'].sum().drop(df_eu_genre.index).sum().round(2)
+df_eu_genre['others'] = df_eu_genre_others
 
 #Quotas de cada região
 
@@ -250,6 +258,78 @@ df_na_rating = df_rating_dropna.groupby('rating')['na_sales'].sum().sort_values(
 #Europe
 df_eu_rating = df_rating_dropna.groupby('rating')['eu_sales'].sum().sort_values(ascending=False)
 
-print(df_jp_rating)
-print(df_na_rating)
-print(df_eu_rating)
+
+#Gráficos 
+
+#PLATFORM
+
+plt.figure(figsize=(14,5))
+
+# Japan
+plt.subplot(1, 3, 1)
+plt.pie(df_jp_platforms.values, labels=df_jp_platforms.index, autopct='%1.1f%%', startangle=90)
+plt.title('Platform - Japan')
+
+# North America
+plt.subplot(1, 3, 2)
+plt.pie(df_na_platforms.values, labels=df_na_platforms.index, autopct='%1.1f%%', startangle=90)
+plt.title('Platform - North America')
+
+# Europe
+plt.subplot(1, 3, 3)
+plt.pie(df_eu_platforms.values, labels=df_eu_platforms.index, autopct='%1.1f%%', startangle=90)
+plt.title('Platform - Europe')
+
+plt.tight_layout()
+plt.savefig('platform_regions.png')
+plt.close()
+
+#GENRE
+
+plt.figure(figsize=(14,5))
+
+# Japan
+plt.subplot(1, 3, 1)
+plt.pie(df_jp_genre.values, labels=df_jp_genre.index, autopct='%1.1f%%', startangle=90)
+plt.title('Genre - Japan')
+
+# North America
+plt.subplot(1, 3, 2)
+plt.pie(df_na_genre.values, labels=df_na_genre.index, autopct='%1.1f%%', startangle=90)
+plt.title('Genre - North America')
+
+# Europe
+plt.subplot(1, 3, 3)
+plt.pie(df_eu_genre.values, labels=df_eu_genre.index, autopct='%1.1f%%', startangle=90)
+plt.title('Genre - Europe')
+
+plt.tight_layout()
+plt.savefig('genre_regions.png')
+plt.close()
+
+
+#RATING
+
+plt.figure(figsize=(14,5))
+
+# Japan
+plt.subplot(1, 3, 1)
+plt.pie(df_jp_rating.values, labels=df_jp_rating.index, autopct='%1.1f%%', startangle=90)
+plt.title('Rating - Japan')
+
+# North America
+plt.subplot(1, 3, 2)
+plt.pie(df_na_rating.values, labels=df_na_rating.index, autopct='%1.1f%%', startangle=90)
+plt.title('Rating - North America')
+
+# Europe
+plt.subplot(1, 3, 3)
+plt.pie(df_eu_rating.values, labels=df_eu_rating.index, autopct='%1.1f%%', startangle=90)
+plt.title('Rating - Europe')
+
+plt.tight_layout()
+plt.savefig('rating_regions.png')
+plt.close()
+
+#TESTES DE HIPOTESE
+
