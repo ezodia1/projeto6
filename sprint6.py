@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy import stats as st
 
 # Atribuição do DataFrame
 df = pd.read_csv('games.csv')
@@ -332,4 +333,45 @@ plt.savefig('rating_regions.png')
 plt.close()
 
 #TESTES DE HIPOTESE
+df_user_dropna = df[df['user_score'].notna()]
 
+df_user_pc = df_user_dropna[df_user_dropna['platform'] == 'PC']['user_score']
+df_user_xone = df_user_dropna[df_user_dropna['platform'] == 'XOne']['user_score']
+
+alpha = 0.05
+
+platform_user_score_results = st.ttest_ind(df_user_pc, df_user_xone)
+
+print(f'valor-p: {platform_user_score_results.pvalue}')
+
+if platform_user_score_results.pvalue < alpha: 
+    print("Rejeitamos a hipótese nula")
+    print("Conclusão: As médias SÃO diferentes")
+else:
+    print("Não podemos rejeitar a hipótese nula")
+    print("Conclusão: As médias PODEM SER iguais")
+
+#GENEROS
+
+df_user_action = df_user_dropna[df_user_dropna['genre'] == 'Action']['user_score']
+df_user_sports = df_user_dropna[df_user_dropna['genre'] == 'Sports']['user_score']
+
+alpha = 0.05
+
+genre_user_score_results = st.ttest_ind(df_user_action, df_user_sports)
+
+print(f'valor-p: {genre_user_score_results.pvalue}')
+
+if genre_user_score_results.pvalue < alpha: 
+    print("Rejeitamos a hipótese nula")
+    print("Conclusão: As médias são estatisticamente diferentes")
+else:
+    print("Não podemos rejeitar a hipótese nula")
+    print("Conclusão: Não há evidência estatística de diferença entre as médias")
+
+
+# Teste 1: Utilizei dos valores fornecidos para testar a hipótese nula (As classificações médias dos usuários das plataformas Xbox One e PC são as mesmas) e a hipótese alternativa (As classificações médias dos usuários das plataformas Xbox One e PC são diferentes). Com isso concluí que, mesmo sendo plataformas com experiências de jogabilidade distintas entre console e computador, as avaliações dos usuários apresentam diferença estatisticamente significativa. Com isso rejeitamos a hipótese nula.
+
+# Teste 2: Utilizei os dados disponíveis para testar a hipótese nula (As classificações médias dos usuários para os gêneros Action e Sports são iguais) e a hipótese alternativa (As classificações médias dos usuários para os gêneros Action e Sports são diferentes). A partir da análise, verifiquei que mesmo sendo gêneros distintos e com públicos diferentes, as avaliações dos usuários não apresentam diferença estatisticamente significativa entre eles. Portanto, não podemos rejeitar a hipótese nula.
+
+#Para estes testes de hipótese utilizei a significância de 5%, tendo em vista que se está sendo analisado dados referentes a compra de videogames e jogos, o quem infere que há algumas variáveis tais como games com múltiplos gêneros, gêneros de jogos que costumam vir acompanhados (como ação e aventura), pessoas que compram consoles por causa de exclusivos ou por fator nostalgia. Como há algumas variáveis que não se tem como calcular com exatidão e o resultado dessa hipótese não coloca a vida de ninguém em risco eu utilizei uma significância de 5%.
